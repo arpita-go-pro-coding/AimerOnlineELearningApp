@@ -36,12 +36,15 @@ const StudentOperations= (props) =>{
             headerName: 'Allowed Access',
             width: 150,
             // renderCell: (isAllowed) => (
-            //     (isAllowed===true) ? <ThumbUpOffAltIcon/> : <ThumbDownOffAltIcon/>  
-            //     //   <strong>
-            //     //     {/* {isAllowed ? (<ThumbUpOffAltIcon/>) : (<ThumbDownOffAltIcon/>)} */}
+      
+
+            //   // (isAllowed) ? ('hi') : ('no')
+            //     // ({isAllowed}=== ? <ThumbUpOffAltIcon/> : <ThumbDownOffAltIcon/>  
+            //       // <strong>
+            //       //   {/* {isAllowed==true ? (<ThumbUpOffAltIcon/>) : (<ThumbDownOffAltIcon/>)} */}
                     
-            //     //   </strong>
-            //     ),
+            //       // </strong>
+                // ),
         },
         {
             field: 'delete',

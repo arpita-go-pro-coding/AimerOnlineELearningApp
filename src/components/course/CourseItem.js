@@ -1,4 +1,4 @@
-import React from "react"
+import React,{useState} from "react"
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -6,40 +6,97 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import imageMenu from "./imageMenu";
+import Box from '@mui/material/Box';
+import {AiFillEdit,AiFillDelete} from "react-icons/ai";
+import { MdDescription } from "react-icons/md"
+import DescriptionModal from "./DescriptionModal";
+import { useDispatch } from "react-redux"
+import { startDeleteCourse } from "../../actions/courseActions";
+import { styled, alpha } from '@mui/material/styles'
+import EditCourseModal from "./EditCourseModal";
+
 
 const getImage=(category) =>{
-    console.log('getImage name', category)
     const result= imageMenu.find((ele)=>{
         return ele.name===category
     })
-    console.log('result image', result.image)
     return result.image
 }
-
+const CustomCardMedia = styled(CardMedia)(() => ({
+    color: "black",
+    backgroundColor: "white",
+    '&:hover': {
+      backgroundColor: "#e1eb73",
+    },
+}));
 
 const CourseItem =(props) =>{
-    const {name, description, duration, level, validity, author, category} = props
+    const {_id, name, description, duration, level, validity, author, category,releaseDate, isDelete} = props
+    const dispatch=  useDispatch()
+    const [desc, setDesc] = useState('')
+    const [flagDesc, setFlagDesc] = useState(false)
+    const [editCourseModalOpen, setEditCourseModalOpen] = useState(false)
+    const filledForm={
+        _id,
+        name,
+        description,
+        duration,
+        releaseDate,
+        isDelete,
+        category,
+        validity,
+        level,
+        author
+    }
+    const handleShowDesc =() =>{
+        setFlagDesc(true)
+        setDesc(description)
+    }
+    const closeModal =(text) =>{
+        if(text==='view')
+            setFlagDesc(false)
+        else if(text==='edit')
+            setEditCourseModalOpen(false)
+    }
+    const handleDeleteCourse= () =>{
+        dispatch(startDeleteCourse(_id))
+    }
+    const handleUpdateCourse= () =>{
+        setEditCourseModalOpen(true)
+    }
     return(
         <Card sx={{ maxWidth: 450 }}>
-            <CardMedia
+            <CustomCardMedia sx={{p: 5}}
                 component="img"
                 alt="course-icon"
-                height="350"
+                height="300"
                 image={getImage(category)}
+                title={description}
                 // image='/images/reactjs.png'
             />
-            <CardContent>
+            <CardContent sx={{flex:'1 0 auto', justifyContent: 'center', alignItems: 'center'}}>
                 <Typography gutterBottom variant="h5" component="div">
                     {name}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {description}
-                </Typography>
             </CardContent>
-            <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
-            </CardActions>
+            <Box sx={{display: 'flex', alignItems: 'center', pl:1, pb:2}}>
+                <CardActions>
+                    <Button style={{fontSize: '30px'}}><MdDescription onClick={handleShowDesc} /></Button>
+                    <Button style={{fontSize: '30px'}}><AiFillEdit onClick={handleUpdateCourse} /></Button>
+                    <Button style={{fontSize: '30px'}}><AiFillDelete onClick={handleDeleteCourse} /></Button>
+                    <Button size='large'>Enroll</Button>
+                </CardActions>
+            </Box>
+            {flagDesc && <DescriptionModal 
+                desc={desc} 
+                flagDesc={flagDesc} 
+                closeModal={closeModal} 
+                category ={category}
+                description={description} 
+            />}
+            {editCourseModalOpen && <EditCourseModal modalOpen={editCourseModalOpen} filledForm={filledForm} 
+              closeModal={closeModal}
+            />}
         </Card>
     
 

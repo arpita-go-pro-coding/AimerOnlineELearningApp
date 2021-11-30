@@ -43,13 +43,14 @@ const RegisterStudent =(props) =>{
             name : '',
             email : '',
             password : '',
-            isAllowed : true
+            isAllowed : ''
         },
         onSubmit : (values) =>{
             // console.log("Register Form data in Register comp",JSON.stringify(values))
             const registerFormData=values
             // console.log('Register Stud Form',registerFormData)
             dispatch(startStudRegister(registerFormData,clearForm))
+            // clearForm()
         },
         onChange: (e,setFieldValue) => {
             // console.log('onChange name and e.currentTarget.value',e.currentTarget.value)
@@ -76,7 +77,7 @@ const RegisterStudent =(props) =>{
         >
             
             <HeadingTypography variant="h5" color="secondary" gutterBottom>
-                Register Student or {" "}
+                Create Student or {" "}
                 <Link to="/students/login"  style={{ textDecoration: "none",color: "#6287F0" }}>
                     Login
                 </Link>

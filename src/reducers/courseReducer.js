@@ -18,6 +18,12 @@ const courseReducer=(state=courseInitialState,action) =>{
         case 'ALL_COURSES_INFO' :{
             return {...state,coursesData: [...action.payload]}
         }
+        case 'DELETE_COURSE':{
+            const result=state.coursesData.filter((eachCourse)=>{
+                return eachCourse._id !==action.payload._id
+            })
+            return {...state, coursesData:[...result]}
+        }
         default : {
             return state
         }

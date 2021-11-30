@@ -3,7 +3,6 @@ import { styled } from '@mui/material/styles'
 import { Typography } from "@mui/material"
 import { useSelector,useDispatch } from "react-redux";
 import CourseItem from "./CourseItem";
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 
@@ -22,7 +21,7 @@ const HeadingTypography = styled(Typography)(() => ({
 const CourseOperations =(props) =>{
     const dispatch=useDispatch()
     const allCoursesInfo=useSelector((state)=>{
-        console.log('allCoursesInfo in CourseOperations ',state.course.coursesData)
+        // console.log('allCoursesInfo in CourseOperations ',state.course.coursesData)
         return state.course.coursesData
     })
     return(
@@ -30,7 +29,7 @@ const CourseOperations =(props) =>{
             <HeadingTypography variant="h5" color="secondary" gutterBottom
                 sx={{textAlign: 'center'}}
             >
-                <strong>Courses -{allCoursesInfo.length}</strong>
+                <strong>Listing All Available Courses -{allCoursesInfo.length}</strong>
             </HeadingTypography>
 
         <Grid sx={{mt:5}} container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
