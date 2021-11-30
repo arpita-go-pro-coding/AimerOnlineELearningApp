@@ -20,6 +20,7 @@ import RegisterStudent from "./user/student/RegisterStudent";
 import StudentAccount from "./user/student/StudentAccount";
 // import { useSelector,useDispatch } from "react-redux";
 import Home from "./Home";
+import Course from "./course/Course";
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -197,6 +198,7 @@ const NavBar =(props) =>{
                 <Route path='/admin/account'  component={Account} />
                 <Route path='/student/account'  component={StudentAccount}  />
                 <Route path='/login'  component={LoginOption} />
+                <Route path='/admin/courses'  component={Course} />
                 <Route path='/admin/login'  exact render={
                     (props) =>{
                         return  <Login 

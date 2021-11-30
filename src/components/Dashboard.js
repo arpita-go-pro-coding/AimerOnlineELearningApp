@@ -8,10 +8,11 @@ import Collapse from '@mui/material/Collapse';
 import PersonIcon from '@mui/icons-material/Person';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import TableViewIcon from '@mui/icons-material/TableView';
+// import AddIcon from '@mui/icons-material/Add';
+// import RemoveIcon from '@mui/icons-material/Remove';
+// import TableViewIcon from '@mui/icons-material/TableView';
 import { Link } from "react-router-dom"
+// import { SiBookstack } from 'react-icons/lib/fa/SiBookstack'
 
 const Dashboard =(props) =>{
     const [open, setOpen] = useState(false)
@@ -26,7 +27,7 @@ const Dashboard =(props) =>{
       aria-labelledby="nested-list-subheader"
       subheader={
         <ListSubheader component="div" id="nested-list-subheader">
-          My Dashboard Now
+          My Dashboard
         </ListSubheader>
       }
     >
@@ -41,30 +42,11 @@ const Dashboard =(props) =>{
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItemButton sx={{ pl: 4 }}>
-            <Link to="/admin/students"  style={{ textDecoration: "none",color: "#d3d8df" }}>
+            <Link to="/admin/courses"  style={{ textDecoration: "none",color: "#d3d8df" }}>
               <ListItemIcon>
-                <AddIcon /><PersonIcon /><ListItemText primary="Register Student" />
+                <ListItemText primary="Course related" />
               </ListItemIcon>
             </Link>
-          </ListItemButton>
-        </List>
-        <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }}>
-          <Link to="#"  style={{ textDecoration: "none",color: "#d3d8df" }}>
-            <ListItemIcon>
-              <RemoveIcon /><PersonIcon /><ListItemText primary="Delete Student" />
-            </ListItemIcon>
-          </Link>
-          </ListItemButton>
-        </List>
-
-        <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }}>
-          <Link to="#"  style={{ textDecoration: "none",color: "#d3d8df" }}>
-            <ListItemIcon>
-              <TableViewIcon /><PersonIcon /><ListItemText primary="View Students" />
-            </ListItemIcon>
-          </Link>
           </ListItemButton>
         </List>
       </Collapse>

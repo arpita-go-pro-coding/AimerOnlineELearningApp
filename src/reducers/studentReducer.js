@@ -49,12 +49,12 @@ const studentReducer= (state=studentInitialState,action) =>{
             })
             return {...state, studentsData:[...result]}
         }
-        default : {
-            return state
-        }
         case 'ADD_STUDENT' :{
             console.log('studRed ',{...state,role: action.payload.role,studentsData: action.payload,})
             return {...state,role: action.payload.role,studentsData: action.payload,}
+        }
+        default : {
+            return state
         }
     }
 }

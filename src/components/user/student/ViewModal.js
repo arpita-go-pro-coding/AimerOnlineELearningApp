@@ -30,7 +30,7 @@ const ViewModal =(props) =>{
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h5">
-                        {selectedRecord.name} 
+                        {selectedRecord.name} {selectedRecord._id}
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         <strong>Email-</strong> {selectedRecord.email}

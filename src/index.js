@@ -7,6 +7,7 @@ import configureStore from './store/configureStore';
 import { startGetUserInfo } from './actions/userActions';
 import { startGetAllStudsInfo } from './actions/studentActions';
 import { startGetStudInfo } from './actions/studentActions';
+import { startGetAllCourses } from './actions/courseActions';
 
 const store= configureStore()
 console.log(store)
@@ -17,6 +18,7 @@ if(localStorage.hasOwnProperty('token') ){
   if(user.role==='admin'){
     store.dispatch(startGetUserInfo())
     store.dispatch(startGetAllStudsInfo())
+    store.dispatch(startGetAllCourses())
   }else if(user.role==='student'){
     store.dispatch(startGetStudInfo(user._id))
   }
