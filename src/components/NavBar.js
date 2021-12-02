@@ -21,7 +21,7 @@ import StudentAccount from "./user/student/StudentAccount";
 // import { useSelector,useDispatch } from "react-redux";
 import Home from "./Home";
 import Course from "./course/Course";
-
+import CourseEnrollment from "./course/CourseEnrollment";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -198,7 +198,8 @@ const NavBar =(props) =>{
                 <Route path='/admin/account'  component={Account} />
                 <Route path='/student/account'  component={StudentAccount}  />
                 <Route path='/login'  component={LoginOption} />
-                <Route path='/admin/courses'  component={Course} />
+                <Route path='/admin/courses'  component={Course} exact />
+                <Route path='/admin/courses/enroll'  component={CourseEnrollment} />
                 <Route path='/admin/login'  exact render={
                     (props) =>{
                         return  <Login 

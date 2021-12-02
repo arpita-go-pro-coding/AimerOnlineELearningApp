@@ -49,6 +49,15 @@ const Dashboard =(props) =>{
             </Link>
           </ListItemButton>
         </List>
+        <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }}>
+            <Link to="/admin/courses/enroll"  style={{ textDecoration: "none",color: "#d3d8df" }}>
+              <ListItemIcon>
+                <ListItemText primary="Enroll students" />
+              </ListItemIcon>
+            </Link>
+          </ListItemButton>
+        </List>
       </Collapse>
     </List>
     )

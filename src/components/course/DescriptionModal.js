@@ -17,7 +17,7 @@ const style = {
   };
 
 const DescriptionModal =(props) =>{
-    const {flagDesc,closeModal,description,category} = props
+    const {flagDesc,closeModal,description,category,id} = props
 
     // const handleOpen = () => setOpen(true);
     const handleClose = () =>closeModal('view')
@@ -30,7 +30,7 @@ const DescriptionModal =(props) =>{
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            {category}
+            {category} - {id}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {description}

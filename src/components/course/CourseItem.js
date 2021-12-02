@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux"
 import { startDeleteCourse } from "../../actions/courseActions";
 import { styled, alpha } from '@mui/material/styles'
 import EditCourseModal from "./EditCourseModal";
-
+import AddCourse from "./AddCourse";
 
 const getImage=(category) =>{
     const result= imageMenu.find((ele)=>{
@@ -88,7 +88,7 @@ const CourseItem =(props) =>{
                 </CardActions>
             </Box>
             {flagDesc && <DescriptionModal 
-                desc={desc} 
+                desc={desc} id={_id}
                 flagDesc={flagDesc} 
                 closeModal={closeModal} 
                 category ={category}
@@ -97,6 +97,7 @@ const CourseItem =(props) =>{
             {editCourseModalOpen && <EditCourseModal modalOpen={editCourseModalOpen} filledForm={filledForm} 
               closeModal={closeModal}
             />}
+            {/* {editCourseModalOpen && <AddCourse filledForm={filledForm} editCourseModalOpen={editCourseModalOpen} />} */}
         </Card>
     
 

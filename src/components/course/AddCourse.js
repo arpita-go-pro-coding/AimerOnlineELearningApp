@@ -18,6 +18,8 @@ import CustomDatePicker from "./CustomDatePicker"
 import * as moment  from 'moment';
 import { useDispatch } from "react-redux"
 import { startAddCourse } from "../../actions/courseActions";
+import category from "./courseCategory";
+import level from "./courseLevel";
 
 const HeadingTypography = styled(Typography)(() => ({
     color: "black",
@@ -31,50 +33,7 @@ const ColorButton = styled(Button)(() => ({
         backgroundColor: "grey",
     },
 }));
-const category = [
-    {
-        value: "HTML",
-        label: "HTML",
-    },
-    {
-        value: "CSS",
-        label: "CSS",
-    },
-    {
-        value: "javascript",
-        label: "Javascript",
-    },
-    {
-        value: "reactjs",
-        label: "ReactJS",
-    },
-    {
-        value: "expressjs",
-        label: "ExpressJS",
-    },
-    {
-        value: "nodejs",
-        label: "NodeJS",
-    },
-    {
-        value: "mongodb",
-        label: "MongoDB",
-    },
-];
-const level = [
-    {
-        value: "beginner",
-        label: "beginner",
-    },
-    {
-        value: "intermediate",
-        label: "intermediate",
-    },
-    {
-        value: "expert",
-        label: "expert",
-    },
-];
+
 const validationSchema = yup.object({
     name: yup.string().required("Name mandatory!"),
     description: yup.string().required("Description mandatory!"),
@@ -96,6 +55,7 @@ const getDate= (formattedDate)=>{
     return formattedDate 
 }
 const AddCourse = (props) => {
+    const {filledForm,editCourseModalOpen} = props
     const name = 'selectedOption'
     const dispatch= useDispatch()
     const formik = useFormik({

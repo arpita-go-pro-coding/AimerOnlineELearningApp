@@ -106,3 +106,27 @@ export const deleteCourse =(deleteCourseResp) =>{
         payload: deleteCourseResp
     }
 }
+
+export const startGetCourseInfo =(id) =>{
+    return(
+        (dispatch) =>{
+            axios.get(`https://dct-e-learning.herokuapp.com/api/courses/${id}`,{
+                headers:{
+                    'Authorization' : localStorage.getItem('token')
+                }
+            }).then((response) =>{
+                const courseInfoResp= response.data
+                console.log('courseInfoResp',courseInfoResp)
+                dispatch(getSingleCourseInfo(courseInfoResp))
+            }).catch((err) =>{
+                alert(err.message)
+            })
+        }
+    )
+}
+export const getSingleCourseInfo =(courseInfoResp) =>{
+    return{
+        type: 'GET_SINGLE_COURSE_INFO',
+        payload: courseInfoResp
+    }
+}
