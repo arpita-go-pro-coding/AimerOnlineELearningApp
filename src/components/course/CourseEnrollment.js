@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react"
+import React,{useState,useEffect,useRef} from "react"
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -11,55 +11,84 @@ import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import { Button,Typography } from "@mui/material";
 import {HiChevronDoubleRight} from "react-icons/hi";
+import {HiChevronDoubleLeft} from "react-icons/hi";
 import List from '@mui/material/List';
-// import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/Inbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
 import { useDispatch , useSelector } from "react-redux"
-import { startGetCourseInfo } from "../../actions/courseActions";
-import _ from 'lodash'
 import UnenrolledStuds from "./UnenrolledStuds";
-import { getNamesIds, getStudIds } from '../helperFunctions/allStudsInfo'
-import { getEnrolledStudsIds } from '../helperFunctions/enrolledStudsInfo'
+import EnrolledStuds from "./EnrolledStuds";
+import { startEnrollCourse } from "../../actions/courseActions";
+import { startUnenrollCourse } from "../../actions/courseActions";
 
-const Item = styled(Paper)(({ theme }) => ({
+const ItemUnerolled = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
   color: theme.palette.text.secondary,
   height : 700,
   width: 500,
-  background : '#9dc6cf'
+  background : '#f0db7d'
 }));
+
+const ItemEnrolled = styled(Paper)(({ theme }) => ({
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    height : 700,
+    width: 500,
+    background : '#b5f5b3'
+  }));
 
 
 const CourseEnrollment =(props) =>{
     const dispatch= useDispatch()
+    const buttonControlUnenroll = useRef('')
+    const buttonControlEnroll = useRef('')
+    const selectCategoryOption= useRef('')
     const [selectCategory, setSelectCategory] = useState('');
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
-    const [singleCourse, setSingleCourse] =useState([])
-    const [unenrolledStudsDetails, setUnenrolledStudsDetails] = useState([])
+    const [selectOnRefresh, setSelectOnRefresh] = useState('');
+    const [enrolled, setEnrolled] = useState([])
+    const [unenrolled, setUnenrolled] = useState([])
+    const [disabledUnenroll, setDisabledUnenroll] = useState(true)
+    const [disabledEnroll, setDisabledEnroll] = useState(true)
+    const [selectedStudToEnroll, setSelectedStudToEnroll] = useState('')
 
     const allStuds=useSelector((state) =>{
         // console.log('allStuds',state.student.studentsData)
         return state.student.studentsData
     })
-    // const allStudsNamesIds= allStuds.length >0 && allStuds.map((stud)=>{
-    //     return {name:stud.name, id: stud._id}
-    // })
-    const allStudsNamesIds= allStuds.length >0 && getNamesIds(allStuds)
-    console.log('allStudsNamesIds', allStudsNamesIds) //0: {name: 'Chaminda Vaas', id: '619ffe928d77d4ed3e3f8bc4'}
-
-    // const allStudsIds= allStudsNamesIds.length > 0 && allStudsNamesIds.map((stud)=>{
-    //     return stud.id
-    // })
-    const allStudsIds = allStudsNamesIds.length > 0 && getStudIds(allStudsNamesIds)
-    console.log('allStudsIds',allStudsIds)
     const allCoursesDetails=useSelector((state) =>{
         return state.course.coursesData
     })
+
+
+    const getEnrolledStudsInfo= (selectCategory) =>{
+        const result= allCoursesDetails.find((course)=>{
+            if(selectCategory===course.category){
+                return course.students
+            }
+        })
+        return result.students
+    }
+    const getEnrolledStudsNames= (enrolledIds) =>{
+        const onlyIds= enrolledIds.map((stud)=>stud.student)
+        const result= allStuds.filter((stud)=>{
+            if(onlyIds.includes(stud._id)){
+                return stud
+            }
+        })
+        return result
+    }
+
+    const getUnenrolledStudsNames= (enrolledIds) =>{
+        const onlyIds= enrolledIds.map((stud)=>stud.student)
+        const result= allStuds.filter((stud)=>{
+            if(!onlyIds.includes(stud._id)){
+                return stud
+            }
+        })
+        return result
+    }
 
     const getCourseId =(selectCategory) =>{
         const result= allCoursesDetails.find((ele) =>{
@@ -67,52 +96,74 @@ const CourseEnrollment =(props) =>{
         })
         return result._id
     }
+
     
+    let enrolledDetails,unenrolledDetails=[]
     useEffect (()=>{
-        if(selectCategory){
-            console.log('selectCategory',selectCategory,allStudsNamesIds)
-            dispatch(startGetCourseInfo(getCourseId(selectCategory)))
+        if(selectCategory && allCoursesDetails.length>0 && allStuds.length>0){
+            const enrolledIds=getEnrolledStudsInfo(selectCategory)
+            // console.log('New2 enrollled-----------', getEnrolledStudsNames(enrolledIds))
+            enrolledDetails=getEnrolledStudsNames(enrolledIds) ////////////Enrolled final
+            // console.log('New3 unenrolled-----------', getUnenrolledStudsNames(enrolledIds))
+            unenrolledDetails=getUnenrolledStudsNames(enrolledIds) ////////////Unenrolled final
+            setEnrolled(enrolledDetails)
+            setUnenrolled(unenrolledDetails)
+            // dispatch(startGetCourseInfo(getCourseId(selectCategory)))
         }
-    },[selectCategory])
+    },[selectCategory,allCoursesDetails,allStuds])
 
 
     const singleCourseInfo=useSelector((state) =>{
         return state.course.singleCourseData
     })
-    console.log('singleCourseInfo NOW---', singleCourseInfo)
-
-    const enrolledStuds=Object.keys(singleCourseInfo).length >0 && singleCourseInfo.students
-    console.log('enrolledStuds',enrolledStuds)
-    // const enrolledStudsIds= Object.keys(singleCourseInfo).length >0 && singleCourseInfo.students.map((stud)=>{
-    //     return stud.student
-    // })
-    const enrolledStudsIds =Object.keys(singleCourseInfo).length >0 &&  getEnrolledStudsIds(singleCourseInfo)
-    console.log('enrolledStudsIds',enrolledStudsIds)
-    // console.log('difference IDs', enrolledStudsIds.length>0 && allStudsIds.length>0 && _.difference(allStudsIds,enrolledStudsIds))
-
-    let unerolledStudIds=[]
-    let unerolledStuds=[]
-    if(enrolledStudsIds.length>0 && allStudsIds.length>0){
-        unerolledStudIds=_.difference(allStudsIds,enrolledStudsIds)
-        unerolledStuds = allStudsNamesIds.filter((stud)=>{
-            if(unerolledStudIds.includes(stud.id)){
-                return {id:stud.id, name:stud.name}
-            }
-        })
-    }
-    // console.log('unerolledStudIds',unerolledStudIds)
-    // console.log('unerolledStuds',unerolledStuds)
-    const resultMapLeft= unerolledStuds.length >0 ? unerolledStuds : allStudsNamesIds
 
     // console.log('example---', _.difference([1, 2, 3, 4, 5], [5, 2, 10]))
 
-  const handleListItemClick = (event, index) => {
-    setSelectedIndex(index);
-  };
+  
   const handleChange = (event) => {
-        // console.log('selected cat',event.target.value)
+        console.log('Inside handleChange')
         setSelectCategory(event.target.value);
+        
     }
+
+    const enrollToCourse =(studId) =>{
+        if(selectCategory){
+            setDisabledUnenroll(!disabledUnenroll)
+            setSelectedStudToEnroll(studId)
+        }
+            
+    }
+    const unenrollToCourse =(studId) =>{
+        if(selectCategory){
+            setDisabledEnroll(!disabledEnroll)
+            setSelectedStudToEnroll(studId)
+        }
+            
+    }
+    // const preSelect=() =>{
+    //     setSelectOnRefresh(localStorage.getItem('selectOption'))
+    // }
+
+    // useEffect(()=>{
+    //     localStorage.setItem('selectOption',selectCategory)
+    // })
+
+    // useEffect(()=>{
+    //     console.log('useEff1')
+    //     const selectOption=localStorage.getItem('selectOption')
+    //     console.log('useEff2')
+    //     setSelectCategory(selectOption)
+    // },[])
+
+    const handleEnrollCourse =() =>{
+        console.log('handleEnrollCourse',selectedStudToEnroll)
+        // localStorage.setItem('selectOption',selectCategory)
+        dispatch(startEnrollCourse(getCourseId(selectCategory),selectedStudToEnroll))
+    }
+    const handleUnenrollCourse =() =>{
+        dispatch(startUnenrollCourse(getCourseId(selectCategory),selectedStudToEnroll))
+    }
+
     return(
         <div>
             <FormControl sx={{ m: 20, minWidth: 120 }}>
@@ -123,6 +174,7 @@ const CourseEnrollment =(props) =>{
                     value={selectCategory}
                     label="Category"
                     onChange={handleChange}
+                    ref={selectCategoryOption}
                     >
                     {category.map((eachCategory)=>{
                         return <MenuItem key ={eachCategory.value} value={eachCategory.value}> 
@@ -134,37 +186,17 @@ const CourseEnrollment =(props) =>{
                 <Box variant="div" sx={{ flexGrow: 1, mt:15 ,}}>
                     <Grid container  spacing={25}>
                         <Grid item xs={5}>
-                            <Item>
+                            <ItemUnerolled>
                             <Typography variant="h6" color="secondary" paragraph>
-                                Unenrolled
+                                <em>Unenrolled</em>
                             </Typography>
-                            {/* <List component="div" aria-label="unenrolled studs">
-                                <ListItemButton
-                                selected={selectedIndex === 0}
-                                onClick={(event) => handleListItemClick(event, 0)}
-                                >
-                                <ListItemIcon>
-                                    <InboxIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Inbox" />
-                                </ListItemButton>
-                                <ListItemButton
-                                selected={selectedIndex === 1}
-                                onClick={(event) => handleListItemClick(event, 1)}
-                                >
-                                <ListItemIcon>
-                                    <DraftsIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Drafts" />
-                                </ListItemButton>
-                            </List> */}
                                 <List component="div" aria-label="unenrolled studs">
-                                    {selectCategory && resultMapLeft && 
+                                    {selectCategory && unenrolled.length >0 && 
                                         
                                         
                                            <Box>
-                                               {resultMapLeft.map((stud)=>{
-                                               return <UnenrolledStuds  key={stud.id} {...stud} />
+                                               {unenrolled.map((stud)=>{
+                                               return <UnenrolledStuds  key={stud._id} {...stud} enrollToCourse={enrollToCourse} />
                                             })}
                                             </Box>
                                             
@@ -172,13 +204,40 @@ const CourseEnrollment =(props) =>{
                                       
                                     }
                                 </List>
-                            </Item>
+                            </ItemUnerolled>
                         </Grid>
                         <Grid item xs={2} sx={{justifyContent: 'center', mt:30}}>
-                            <Button variant="contained" style={{fontSize: '30px'}}>    <HiChevronDoubleRight />    </Button>
+                            <Button variant="contained" style={{fontSize: '30px'}} ref={buttonControlUnenroll} disabled={disabledUnenroll}
+                                onClick={handleEnrollCourse}
+                            >    
+                                <HiChevronDoubleRight />    
+                            </Button>
+                            <Button variant="contained" style={{fontSize: '30px'}} ref={buttonControlEnroll} disabled={disabledEnroll}
+                                onClick={handleUnenrollCourse}
+                            >    
+                                <HiChevronDoubleLeft />    
+                            </Button>
                         </Grid>
                         <Grid item xs={5}>
-                            <Item>xs=4</Item>
+                            <ItemEnrolled>
+                                <Typography variant="h6" color="secondary" paragraph>
+                                    <em>Enrolled</em>
+                                </Typography>
+                                <List component="div" aria-label="unenrolled studs">
+                                    {selectCategory && enrolled.length>0 && 
+                                        
+                                        
+                                           <Box>
+                                               {enrolled.map((stud)=>{
+                                               return <EnrolledStuds  key={stud._id} {...stud} unenrollToCourse={unenrollToCourse} />
+                                            })}
+                                            </Box>
+                                            
+                                      
+                                      
+                                    }
+                                </List>
+                            </ItemEnrolled>
                         </Grid>
                         
                     </Grid>

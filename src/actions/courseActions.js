@@ -130,3 +130,57 @@ export const getSingleCourseInfo =(courseInfoResp) =>{
         payload: courseInfoResp
     }
 }
+
+export const startEnrollCourse =(courseId, studId) =>{
+    return(
+        (dispatch) =>{
+            axios.patch(`https://dct-e-learning.herokuapp.com/api/courses/enroll?courseId=${courseId}&studentId=${studId}`,{},{
+                headers: {
+                    'Authorization' : localStorage.getItem('token')
+                }
+            }).then((response) =>{
+                const enrollCourseResp= response.data
+                console.log('enrollCourseResp',enrollCourseResp)
+                // dispatch(enrollCourse(enrollCourseResp))
+                Swal.fire({
+                    icon : 'success',
+                    title: 'Enrolled!',
+                    text: 'Student successfully enrolled'
+                })
+                // handleChange()
+                window.location.reload()
+                
+            }).catch((err) =>{
+                alert(err.message)
+            })
+
+        }
+    )
+}
+
+export const startUnenrollCourse =(courseId, studId) =>{
+    return(
+        (dispatch) =>{
+            axios.patch(`https://dct-e-learning.herokuapp.com/api/courses/unenroll?courseId=${courseId}&studentId=${studId}`,{},{
+                headers: {
+                    'Authorization' : localStorage.getItem('token')
+                }
+            }).then((response) =>{
+                const unenrollCourseResp= response.data
+                console.log('unenrollCourseResp',unenrollCourseResp)
+                // dispatch(enrollCourse(enrollCourseResp))
+                Swal.fire({
+                    icon : 'success',
+                    title: 'Unenrolled!',
+                    text: 'Student successfully unenrolled'
+                })
+                // handleChange()
+                window.location.reload()
+                
+            }).catch((err) =>{
+                alert(err.message)
+            })
+
+        }
+    )
+}

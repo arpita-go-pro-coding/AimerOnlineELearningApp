@@ -2,7 +2,7 @@ const courseInitialState={
     isLoading: true,
     role: '',
     coursesData: [],
-    singleCourseData: [],
+    // singleCourseData: [],
     errors: {},
     alerts: ''
 }
@@ -25,9 +25,12 @@ const courseReducer=(state=courseInitialState,action) =>{
             })
             return {...state, coursesData:[...result]}
         }
-        case 'GET_SINGLE_COURSE_INFO' :{
-            // console.log('GET_SINGLE_COURSE_INFO',{...state, singleCourseData: [action.payload]})
-            return {...state, singleCourseData: action.payload}
+        // case 'GET_SINGLE_COURSE_INFO' :{
+        //     // console.log('GET_SINGLE_COURSE_INFO',{...state, singleCourseData: [action.payload]})
+        //     return {...state, singleCourseData: action.payload}
+        // }
+        case 'ENROLL_COURSE_BY_ADMIN' :{
+            // return 
         }
         default : {
             return state

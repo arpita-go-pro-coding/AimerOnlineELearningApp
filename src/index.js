@@ -24,6 +24,10 @@ if(localStorage.hasOwnProperty('token') ){
   }
   
 }
+// console.log('SUBSCRIBE---------')
+store.subscribe(() => {
+  console.log("subscribe", store.getState());
+})
 
 ReactDOM.render(<Provider store={store}>
   <BrowserRouter>

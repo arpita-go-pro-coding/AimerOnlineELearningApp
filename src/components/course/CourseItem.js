@@ -65,7 +65,7 @@ const CourseItem =(props) =>{
         setEditCourseModalOpen(true)
     }
     return(
-        <Card sx={{ maxWidth: 450 }}>
+        <Card sx={{ maxWidth: 500 }}>
             <CustomCardMedia sx={{p: 5}}
                 component="img"
                 alt="course-icon"

@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { useSelector } from "react-redux";
 
 const style = {
     position: 'absolute' ,
@@ -18,6 +19,20 @@ const style = {
 
 const ViewModal =(props) =>{
     const {modalOpen,selectedRecord,closeModal} =props
+    // console.log('selectedRec',selectedRecord)
+    const selectedCoursesIds= selectedRecord.courses.map((c)=>{
+        return c.course
+    })
+    console.log('selectedCoursesIds',selectedCoursesIds)
+
+    const coursesInfo= useSelector((state)=>{
+        return state.course.coursesData
+    })
+    // console.log('coursesInfo',  coursesInfo)
+    const enrolledCourses= coursesInfo.filter((course)=>{
+        return selectedCoursesIds.includes(course._id)
+    })
+    console.log('Enrolled courses', enrolledCourses)
     const handleClose = () => closeModal('view');
     
     return(
@@ -48,7 +63,10 @@ const ViewModal =(props) =>{
                         <strong>updatedAt-</strong> {selectedRecord.updatedAt}
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        <strong>Courses-</strong> {selectedRecord.courses.length>0 ? selectedRecord.courses.join() : 'NIL'}
+                        <strong><u>Courses-</u></strong> 
+                        {enrolledCourses.length>0 ? enrolledCourses.map((c)=>{
+                            return <p key={c._id}> <strong>{c.category} </strong> -{c.name} </p>
+                        }) : 'NIL'}
                     </Typography>
                     <br/>
                     <Button variant='contained' onClick={handleClose}>Ok</Button>

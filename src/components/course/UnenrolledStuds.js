@@ -1,16 +1,24 @@
-import React from "react"
+import React,{useRef,useState} from "react"
 import ListItemButton from '@mui/material/ListItemButton';
+import { ListItemText } from '@mui/material';
 
 const UnenrolledStuds = (props) =>{
-    const {name} = props
-    // console.log('unerolledStuds',name)
+    const [selectedItem, setSelectedItem] = useState(null)
+    const btnColor=useRef("")
+    const {name,_id,enrollToCourse} = props
+    const handleListItemClick =() =>{
+        // console.log('clicked unerolled')
+        btnColor.current.style.backgroundColor ='#b3a684'
+        enrollToCourse(_id)
+
+    }
     return(
-        <ListItemButton 
-                                        // selected={selectedIndex === 0}
-                                        // onClick={(event) => handleListItemClick(event, 0)}
-                                        >
-            {/* hey */}
-            <strong>{name}</strong>
+        <ListItemButton sx={{color: 'blue', fontSize: '20px'}} ref={btnColor}>
+            <ListItemText onClick={handleListItemClick} onPress={() => setSelectedItem(_id)}
+                checked={_id === selectedItem}
+            >
+                <strong>{name}</strong>
+            </ListItemText>
         </ListItemButton>
     )
 }
