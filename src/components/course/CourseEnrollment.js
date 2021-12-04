@@ -45,7 +45,7 @@ const CourseEnrollment =(props) =>{
     const buttonControlUnenroll = useRef('')
     const buttonControlEnroll = useRef('')
     const selectCategoryOption= useRef('')
-    const [selectCategory, setSelectCategory] = useState('');
+    const [selectCategory, setSelectCategory] = useState(localStorage.getItem('cname'));
     const [selectOnRefresh, setSelectOnRefresh] = useState('');
     const [enrolled, setEnrolled] = useState([])
     const [unenrolled, setUnenrolled] = useState([])
@@ -61,6 +61,9 @@ const CourseEnrollment =(props) =>{
         return state.course.coursesData
     })
 
+    // const xyz =(cname) =>{
+    //     setSelectCategory(cname)
+    // }
 
     const getEnrolledStudsInfo= (selectCategory) =>{
         const result= allCoursesDetails.find((course)=>{

@@ -14,7 +14,7 @@ const UnenrolledStuds = (props) =>{
     }
     return(
         <ListItemButton sx={{color: 'blue', fontSize: '20px'}} ref={btnColor}>
-            <ListItemText onClick={handleListItemClick} onPress={() => setSelectedItem(_id)}
+            <ListItemText onClick={handleListItemClick} 
                 checked={_id === selectedItem}
             >
                 <strong>{name}</strong>

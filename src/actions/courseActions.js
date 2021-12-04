@@ -141,14 +141,16 @@ export const startEnrollCourse =(courseId, studId) =>{
             }).then((response) =>{
                 const enrollCourseResp= response.data
                 console.log('enrollCourseResp',enrollCourseResp)
+                console.log('enrollCourseResp cname',enrollCourseResp.name)
                 // dispatch(enrollCourse(enrollCourseResp))
                 Swal.fire({
                     icon : 'success',
                     title: 'Enrolled!',
                     text: 'Student successfully enrolled'
                 })
-                // handleChange()
+                localStorage.setItem ('cname', enrollCourseResp.category)
                 window.location.reload()
+                // xyz(enrollCourseResp.category)
                 
             }).catch((err) =>{
                 alert(err.message)
@@ -175,6 +177,7 @@ export const startUnenrollCourse =(courseId, studId) =>{
                     text: 'Student successfully unenrolled'
                 })
                 // handleChange()
+                localStorage.setItem ('cname', unenrollCourseResp.category)
                 window.location.reload()
                 
             }).catch((err) =>{
