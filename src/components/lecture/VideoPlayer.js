@@ -13,8 +13,10 @@ const VideoPlayer =(props) =>{
     })
     console.log('req lecture',requiredLecture)
     return(
-        <Box sx={{marginTop: '400px',marginleft: '700px'}}>
-            <ReactPlayer controls width='900px' height='500px' url={requiredLecture.assetURL} />
+        <Box 
+        // sx={{marginTop: '400px',marginleft: '700px'}}
+        >
+            <ReactPlayer controls width='950px' height='550px' url={requiredLecture.assetURL} />
         </Box>
     )
 }
