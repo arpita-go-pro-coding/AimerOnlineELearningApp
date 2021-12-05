@@ -6,7 +6,6 @@ import { ListItemText } from '@mui/material';
 const EnrolledStuds =(props) =>{
     const {name,_id,unenrollToCourse} = props
     const btnColor=useRef("")
-    console.log('EnrolledStuds --------------#####################')
 
     const handleListItemClick =() =>{
         btnColor.current.style.backgroundColor ='#b3a684'

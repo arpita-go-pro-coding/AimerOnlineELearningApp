@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux"
 import { startDeleteCourse } from "../../actions/courseActions";
 import { styled, alpha } from '@mui/material/styles'
 import EditCourseModal from "./EditCourseModal";
+import { Link } from "react-router-dom"
 import AddCourse from "./AddCourse";
 
 const getImage=(category) =>{
@@ -84,7 +85,9 @@ const CourseItem =(props) =>{
                     <Button style={{fontSize: '30px'}}><MdDescription onClick={handleShowDesc} /></Button>
                     <Button style={{fontSize: '30px'}}><AiFillEdit onClick={handleUpdateCourse} /></Button>
                     <Button style={{fontSize: '30px'}}><AiFillDelete onClick={handleDeleteCourse} /></Button>
-                    <Button size='large'>Enroll</Button>
+                    <Button size='large' variant='contained'>
+                        <Link to={`/courses/${_id}/lectures`} style={{textDecoration: 'none',color: "#d3d8df"}}>Go to Lectures</Link>
+                    </Button>
                 </CardActions>
             </Box>
             {flagDesc && <DescriptionModal 

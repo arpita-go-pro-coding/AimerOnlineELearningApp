@@ -29,9 +29,6 @@ const courseReducer=(state=courseInitialState,action) =>{
         //     // console.log('GET_SINGLE_COURSE_INFO',{...state, singleCourseData: [action.payload]})
         //     return {...state, singleCourseData: action.payload}
         // }
-        case 'ENROLL_COURSE_BY_ADMIN' :{
-            // return 
-        }
         default : {
             return state
         }

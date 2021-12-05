@@ -22,6 +22,7 @@ import StudentAccount from "./user/student/StudentAccount";
 import Home from "./Home";
 import Course from "./course/Course";
 import CourseEnrollment from "./course/CourseEnrollment";
+import Lectures from "./lecture/Lectures";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -200,6 +201,7 @@ const NavBar =(props) =>{
                 <Route path='/login'  component={LoginOption} />
                 <Route path='/admin/courses'  component={Course} exact />
                 <Route path='/admin/courses/enroll'  component={CourseEnrollment} />
+                <Route path='/courses/:_id/lectures'  component={Lectures} />
                 <Route path='/admin/login'  exact render={
                     (props) =>{
                         return  <Login 

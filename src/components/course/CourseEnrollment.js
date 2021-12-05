@@ -61,10 +61,6 @@ const CourseEnrollment =(props) =>{
         return state.course.coursesData
     })
 
-    // const xyz =(cname) =>{
-    //     setSelectCategory(cname)
-    // }
-
     const getEnrolledStudsInfo= (selectCategory) =>{
         const result= allCoursesDetails.find((course)=>{
             if(selectCategory===course.category){
@@ -235,9 +231,6 @@ const CourseEnrollment =(props) =>{
                                                return <EnrolledStuds  key={stud._id} {...stud} unenrollToCourse={unenrollToCourse} />
                                             })}
                                             </Box>
-                                            
-                                      
-                                      
                                     }
                                 </List>
                             </ItemEnrolled>
