@@ -11,6 +11,9 @@ const lectureReducer= (state=lectureInitialState, action) =>{
         case 'ALL_LECTURES_INFO' :{
             return {...state,lecturesData: [...action.payload]}
         }
+        case 'ADD_LECTURE' :{
+            return {...state,lecturesData:[...state.lecturesData,action.payload]}
+        }
         default : {
             return state
         }

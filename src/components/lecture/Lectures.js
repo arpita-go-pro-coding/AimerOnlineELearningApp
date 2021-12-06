@@ -26,6 +26,8 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button"
 import { BsBinoculars } from "react-icons/bs";
 import ViewModal from "./ViewModal";
+import { BsPlusLg } from "react-icons/bs";
+import AddLectureModal from "./AddLectureModal";
 
 // const data = [
 //   { icon: <People />, label: "Authentication" },
@@ -54,6 +56,7 @@ const Lectures = (props) => {
   const [lectId, setLectId] = useState("")
   const [viewDetailsBtn, setViewDetailsBtn] = useState(false)
   const [viewDetailsModal, setViewDetailsModal] = useState(false)
+  const [addLect, setAddLect] = useState(false)
   const { _id } = props.match.params;
   const dispatch = useDispatch();
 
@@ -87,13 +90,22 @@ const Lectures = (props) => {
       setViewDetailsModal(true)
       
   }
-  const closeModal=() =>{
-      setViewDetailsModal(false)
+  const closeModal=(text) =>{
+      if(text==='view'){
+        setViewDetailsModal(false)
+      }else if(text==='add'){
+        setAddLect(false)
+      }
+       
+  }
+  const handleAddLecture =() =>{
+      console.log('Add lect')
+      setAddLect(true)
   }
   return (
     <Box sx={{ display: "flex",flexGrow: 1 }}>
       <Grid container spacing={30} >
-        <Grid item xs={3}>
+        <Grid item xs={3} >
           <ThemeProvider
             theme={createTheme({
               components: {
@@ -120,7 +132,7 @@ const Lectures = (props) => {
               }}
             >
               <CourseLectures component="nav" disablePadding>
-                <Box
+                <Box 
                   sx={{
                     bgcolor: open ? "rgba(71, 98, 130, 0.2)" : null,
                     pb: open ? 2 : 0,
@@ -153,29 +165,40 @@ const Lectures = (props) => {
                   
                   {open &&
                     lecturesInfo.map((lect, idx) => (
-                      <ListItemButton
-                        key={lect._id}
-                        sx={{
-                          py: 0,
-                          minHeight: 32,
-                          color: "rgba(255,255,255,.8)",
-                        }}
-                        onClick={() => handleVideoPlay(lect._id)}
-                      >
-                        <ListItemText
-                          primary={`${idx + 1}. ${lect.title}`}
-                          primaryTypographyProps={{
-                            fontSize: 14,
-                            fontWeight: "medium",
-                          }}
-                        />
-                      </ListItemButton>
+                      <React.Fragment key={lect._id} >
+                        <ListItemButton 
+                            key={lect._id}
+                            sx={{
+                            py: 0,
+                            minHeight: 32,
+                            color: "rgba(255,255,255,.8)",
+                            }}
+                            onClick={() => handleVideoPlay(lect._id)}
+                        >
+                            <ListItemText
+                            primary={`${idx + 1}. ${lect.title}`}
+                            primaryTypographyProps={{
+                                fontSize: 14,
+                                fontWeight: "medium",
+                            }}
+                            />
+                        </ListItemButton>
+                        <Divider/>
+                        
+                    </React.Fragment>
                     ))}
+                    <ListItemButton sx={{color: 'orange', background: '#A39BD4'}}
+                        onClick={handleAddLecture}
+                        >
+                          <BsPlusLg/> Add New Lecture 
+                        </ListItemButton>
                 </Box>
               </CourseLectures>
             </Paper>
           </ThemeProvider>
+          
         </Grid>
+        {addLect && <AddLectureModal closeModal={closeModal} addLect={addLect} courseId={_id} />}
         <Grid item sx={{mt:30}} xs={9}>
         {/* <Button variant="contained" sx={{mb:10}} onClick={handleViewDetails}>View Details {" "}<BsBinoculars/></Button> */}
             {viewDetailsBtn && <Button variant="contained" sx={{mb:10}} onClick={handleViewDetails}>View Details {" "}<BsBinoculars/></Button>}
@@ -184,6 +207,7 @@ const Lectures = (props) => {
         </Grid>
       </Grid>
       {viewDetailsModal && <ViewModal viewDetailsModal={viewDetailsModal} closeModal={closeModal} lectId={lectId} />}
+      
     </Box>
   );
 };

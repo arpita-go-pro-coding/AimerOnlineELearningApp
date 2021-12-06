@@ -29,7 +29,7 @@ const ViewModal =(props) =>{
         return lec._id===lectId
     })
     const handleClose =() =>{
-        closeModal()
+        closeModal('view')
     }
     return(
         <div>
